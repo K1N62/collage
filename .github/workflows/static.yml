@@ -30,16 +30,10 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20 # lts/*
+          node-version: lts/*
           cache: 'npm'
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
-      - name: Dump npm debug log
-        run: |
-          echo "npm ci failed, dumping logs..."
-          ls -la /home/runner/.npm/_logs || true
-          tail -n +1 /home/runner/.npm/_logs/*-debug-0.log || true
-          exit 1
+        run: npm ci --no-audit --no-fund
       - name: Build
         run: npm run build
       - name: Upload artifact
