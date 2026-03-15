@@ -33,11 +33,8 @@ jobs:
           node-version: 20 # lts/*
           cache: 'npm'
       - name: Install dependencies
-        id: npminstall
-        continue-on-error: true
         run: npm install --no-audit --no-fund
-      - name: Dump npm debug log (if install failed)
-        if: steps.npminstall.outcome == 'failure'
+      - name: Dump npm debug log
         run: |
           echo "npm ci failed, dumping logs..."
           ls -la /home/runner/.npm/_logs || true
