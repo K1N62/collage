@@ -27,15 +27,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 20  # lts/* does not work atm
+          cache: npm
+
+      # Required to fix bug
+      - name: Pin npm
+        run: npm install -g npm@10.8.2
+
+      - name: Show versions (debug)
+        run: |
+          node -v
+          npm -v
+
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund
+
       - name: Build
         run: npm run build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
